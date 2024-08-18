@@ -48,7 +48,12 @@ function getBlog(req, res) {
 function createBlog(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { title, content, userId } = req.body;
+            const { title, content } = req.body;
+            let userId = '';
+            console.log(req.headers);
+            if (typeof (req.headers.userId) == 'string') {
+                userId = req.headers.userId ? req.headers.userId : '';
+            }
             const user = yield prisma.user.findUnique({
                 where: { id: userId }
             });
@@ -74,11 +79,19 @@ function updateBlog(req, res) {
         try {
             const { blogId } = req.params;
             const { title, content, likes } = req.body;
+            let userId = '';
+            if (typeof (req.headers.userId) == 'string') {
+                userId = req.headers.userId;
+            }
             const blogExists = yield prisma.post.findUnique({
                 where: { id: blogId }
             });
             if (!blogExists) {
                 return res.status(404).json("Blog not found");
+            }
+            console.log(blogExists.authorId, userId);
+            if (blogExists.authorId != userId) {
+                return res.status(403).json("You are not the author of this blog");
             }
             const post = yield prisma.post.update({
                 where: { id: blogId },
