@@ -1,9 +1,28 @@
+import { createBrowserRouter,RouterProvider } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import Navbar from "./components/Navbar";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 function App() {
 
+  const appRouter=createBrowserRouter([
+    {
+      path:"/",
+      element:<HomePage/>
+    },
+    {
+      path:"/login",
+      element:<LoginPage/>
+    }
+  ])
   return (
-    <div>
-      <h1 className="text-red-800">Hello</h1>
-    </div>
+    <Provider store={store}>
+      <div>
+        <Navbar/>
+        <RouterProvider router={appRouter}/>
+      </div>
+    </Provider>
   )
 }
 
