@@ -34,7 +34,12 @@ export async function getBlog(req:Request,res:Response){
 
 export async function createBlog(req:Request,res:Response){
     try{
-        const {title,content,userId}=req.body;
+        const {title,content}=req.body;
+        let userId='';
+        console.log(req.headers);
+        if(typeof(req.headers.userId)=='string'){
+            userId=req.headers.userId?req.headers.userId:'';
+        }
         const user=await prisma.user.findUnique({
             where:{id:userId}
         });
@@ -60,11 +65,20 @@ export async function updateBlog(req:Request,res:Response){
     try{
         const{blogId}=req.params;
         const {title,content,likes}=req.body;
+        let userId='';
+        if(typeof(req.headers.userId)=='string'){
+            userId=req.headers.userId;
+        }
+
         const blogExists=await prisma.post.findUnique({
             where:{id:blogId}
         });
         if(!blogExists){
             return res.status(404).json("Blog not found");
+        }
+        console.log(blogExists.authorId, userId);
+        if(blogExists.authorId!=userId){
+            return res.status(403).json("You are not the author of this blog");
         }
         const post=await prisma.post.update({
             where:{id:blogId},
