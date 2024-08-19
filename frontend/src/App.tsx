@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store";
 import FeedPage from "./pages/FeedPage";
 import BlogPage from "./pages/BlogPage";
+import PublishBlogPage from "./pages/PublishBlogPage";
 function App() {
 
   const appRouter=createBrowserRouter([
@@ -22,6 +23,9 @@ function App() {
     },{
       path:"/:blogId",
       element:<BlogPage/>
+    },{
+      path:"/publish",
+      element:<PublishBlogPage/>
     }
   ])
   return (

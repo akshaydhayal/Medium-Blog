@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const FeedPage = () => {
   const blogs:any=useGetAllBlogs();
   const navigate=useNavigate();
+
   return (
     <div className='w-screen h-[90vh] bg-[#121212] flex justify-center'>
         <div className="w-2/3 h-full border-x border-x-slate-600 py-4 overflow-scroll overflow-x-hidden">
@@ -46,7 +47,7 @@ const FeedPage = () => {
                           </div>
                           <div className="w-1/4">
                             <img className="h-28 w-52 object-cover rounded-sm"
-                              src="https://miro.medium.com/v2/resize:fit:1100/format:webp/0*_9wQ2jmZQRu969Hz"
+                              src={blog.topicProfileImage}
                               loading="lazy"
                             />
                           </div>
