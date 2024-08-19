@@ -1,11 +1,10 @@
-import { useState } from "react";
 import LoginModal from "../components/LoginModal";
 import { useDispatch, useSelector } from "react-redux";
-import { store } from "../store/store";
 import SignupModal from "../components/SignupModal";
 import { toggleSignMethod } from "../store/signMethodStore";
 
 const HomePage = () => {
+//   @ts-ignore
   const signMethod=useSelector((store)=>store.signMethod.value);
   const dispatch=useDispatch();
   console.log('signMethod : ',signMethod);

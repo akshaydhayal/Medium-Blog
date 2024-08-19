@@ -25,7 +25,10 @@ model User {
 model Post{
   id String @id @default(uuid())
   title String
+  subtitle String
   content String
+  topicTags String[]
+  topicProfileImage String
   publishedTime DateTime @default(now())
   likes Int
   user User @relation(fields:[authorId], references:[id])

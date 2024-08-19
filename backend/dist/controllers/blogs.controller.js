@@ -18,7 +18,13 @@ const prisma = new client_1.PrismaClient();
 function getAllBlogs(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const posts = yield prisma.post.findMany();
+            const posts = yield prisma.post.findMany({
+                include: {
+                    user: {
+                        select: { username: true, email: true }
+                    }
+                }
+            });
             res.status(200).json(posts);
         }
         catch (e) {
@@ -32,7 +38,12 @@ function getBlog(req, res) {
         try {
             const { blogId } = req.params;
             const blog = yield prisma.post.findUnique({
-                where: { id: blogId }
+                where: { id: blogId },
+                include: { user: {
+                        select: {
+                            email: true, username: true
+                        }
+                    } }
             });
             if (!blog) {
                 res.status(404).json("Blog not found");
@@ -48,7 +59,8 @@ function getBlog(req, res) {
 function createBlog(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const { title, content } = req.body;
+            // const {title,content}=req.body;
+            const { title, content, topicProfileImage, subtitle, topicTags } = req.body;
             let userId = '';
             console.log(req.headers);
             if (typeof (req.headers.userId) == 'string') {
@@ -62,7 +74,8 @@ function createBlog(req, res) {
             }
             const post = yield prisma.post.create({
                 data: {
-                    title, content, likes: 0, authorId: userId
+                    title, content, likes: 0, authorId: userId,
+                    topicProfileImage, subtitle, topicTags
                 }
             });
             console.log(post);
@@ -78,7 +91,7 @@ function updateBlog(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             const { blogId } = req.params;
-            const { title, content, likes } = req.body;
+            const { title, subtitle, content, likes } = req.body;
             let userId = '';
             if (typeof (req.headers.userId) == 'string') {
                 userId = req.headers.userId;
@@ -96,7 +109,7 @@ function updateBlog(req, res) {
             const post = yield prisma.post.update({
                 where: { id: blogId },
                 data: {
-                    title, content, likes
+                    title, content, likes, subtitle
                 }
             });
             console.log(post);
