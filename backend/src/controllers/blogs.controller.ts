@@ -5,7 +5,13 @@ const prisma=new PrismaClient();
 
 export async function getAllBlogs(req:Request, res:Response){
     try{
-        const posts=await prisma.post.findMany();
+        const posts=await prisma.post.findMany({
+            include:{
+                user:{
+                    select:{username:true,email:true}
+                }
+            }
+        });
         res.status(200).json(posts);
     }catch(e){
         console.log("error in getAll Blogs controller",e);
@@ -18,7 +24,12 @@ export async function getBlog(req:Request,res:Response){
     try{
         const {blogId}=req.params;
         const blog=await prisma.post.findUnique({
-            where:{id:blogId}
+            where:{id:blogId},
+            include:{user:{
+                select:{
+                    email:true,username:true
+                }
+            }}
         });
         if(!blog){
             res.status(404).json("Blog not found");
@@ -34,7 +45,8 @@ export async function getBlog(req:Request,res:Response){
 
 export async function createBlog(req:Request,res:Response){
     try{
-        const {title,content}=req.body;
+        // const {title,content}=req.body;
+        const {title,content,topicProfileImage,subtitle,topicTags}=req.body;
         let userId='';
         console.log(req.headers);
         if(typeof(req.headers.userId)=='string'){
@@ -48,7 +60,8 @@ export async function createBlog(req:Request,res:Response){
         }
         const post=await prisma.post.create({
             data:{
-                title,content,likes:0,authorId:userId
+                title,content,likes:0,authorId:userId,
+                topicProfileImage,subtitle,topicTags
             }
         });
         console.log(post);
@@ -64,7 +77,7 @@ export async function createBlog(req:Request,res:Response){
 export async function updateBlog(req:Request,res:Response){
     try{
         const{blogId}=req.params;
-        const {title,content,likes}=req.body;
+        const {title,subtitle,content,likes}=req.body;
         let userId='';
         if(typeof(req.headers.userId)=='string'){
             userId=req.headers.userId;
@@ -83,7 +96,7 @@ export async function updateBlog(req:Request,res:Response){
         const post=await prisma.post.update({
             where:{id:blogId},
             data:{
-                title,content,likes
+                title,content,likes,subtitle
             }
         });
         console.log(post);

@@ -2,10 +2,16 @@ import express from "express";
 import dotenv from "dotenv";
 import userRouter from "./routes/userRouter";
 import blogRouter from "./routes/blogRouter";
+import cors from "cors";
 
 const app=express();
 dotenv.config();
 app.use(express.json());
+app.use(cors({
+    origin:['http://localhost:5173','http://localhost:5174'],
+    methods:[''],
+}));
+
 //post - api/v1/users/signup
 //post - api/v1/users/signin
 //post - api/v1/blogs/create

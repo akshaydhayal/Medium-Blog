@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { FaUnlockAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
-import { FaHand } from "react-icons/fa6";
 import { toggleSignMethod } from "../store/signMethodStore";
 import { useDispatch } from "react-redux";
 

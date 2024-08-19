@@ -4,6 +4,8 @@ import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
+import FeedPage from "./pages/FeedPage";
+import BlogPage from "./pages/BlogPage";
 function App() {
 
   const appRouter=createBrowserRouter([
@@ -14,6 +16,12 @@ function App() {
     {
       path:"/login",
       element:<LoginPage/>
+    },{
+      path:"/feeds",
+      element:<FeedPage/>
+    },{
+      path:"/:blogId",
+      element:<BlogPage/>
     }
   ])
   return (
