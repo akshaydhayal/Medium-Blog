@@ -1,9 +1,13 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export function useUpdateBlog(blogId:String,title:String,subtitle:String,content:{id:Number,content:String}[],
     topicProfileImage:String,topicTags:String[],likes:Number){
+    
     const navigate=useNavigate(); 
+    const authUser=useSelector((store)=>store.authUser);
+
     async function updateBlog(){
         const modifiedContent=(content && content[0].content)?content.map((para)=>para.content):content;
         console.log("modified Content : ",modifiedContent);
@@ -22,7 +26,8 @@ export function useUpdateBlog(blogId:String,title:String,subtitle:String,content
             {
             headers: {
                 "Content-Type": "application/json",
-                "jwtToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxYWUxMzQwLWI4MjQtNDBkZi1hMTY2LTBkMDAzNjYwYTJiMyIsImlhdCI6MTcyNDAzNzk3NX0.fSYMFkPHWKhgWFXgbPO0yuVRPa5Et9eU3EJaUY83uNA",
+                "jwtToken":authUser.token,
+                // "jwtToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxYWUxMzQwLWI4MjQtNDBkZi1hMTY2LTBkMDAzNjYwYTJiMyIsImlhdCI6MTcyNDAzNzk3NX0.fSYMFkPHWKhgWFXgbPO0yuVRPa5Et9eU3EJaUY83uNA",
             },
             }
         );

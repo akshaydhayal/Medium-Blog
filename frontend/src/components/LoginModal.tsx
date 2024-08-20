@@ -10,8 +10,8 @@ import { useLoginUser } from "../hooks/useLoginUser";
 const LoginModal = () => {
     const [email,setEmail]=useState('');
     const [password,setPassword]=useState('');
-    const loginUser=useLoginUser(email,password);
 
+    const loginUser=useLoginUser(email,password);
     const dispatch=useDispatch();
 
   return (

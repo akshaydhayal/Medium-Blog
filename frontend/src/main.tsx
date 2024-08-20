@@ -9,6 +9,8 @@ import LoginPage from './pages/LoginPage.tsx'
 import BlogPage from './pages/BlogPage.tsx'
 import PublishBlogPage from './pages/PublishBlogPage.tsx'
 import UpdateBlogPage from './pages/UpdateBlogPage.tsx'
+import { Provider } from 'react-redux'
+import { store } from './store/store.ts'
 
 const appRouter = createBrowserRouter([
   {
@@ -45,6 +47,8 @@ const appRouter = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={appRouter}/>
+    <Provider store={store}>
+      <RouterProvider router={appRouter}/>
+    </Provider>
   </StrictMode>,
 )

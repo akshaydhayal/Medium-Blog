@@ -1,13 +1,8 @@
-import LoginModal from "../components/LoginModal";
-import { useDispatch, useSelector } from "react-redux";
-import SignupModal from "../components/SignupModal";
+import { useDispatch } from "react-redux";
 import { toggleSignMethod } from "../store/signMethodStore";
 
 const HomePage = () => {
-//   @ts-ignore
-  const signMethod=useSelector((store)=>store.signMethod.value);
   const dispatch=useDispatch();
-  console.log('signMethod : ',signMethod);
 
   return (
     <div className="w-screen h-[90vh] bg-[#121212]">
@@ -34,8 +29,6 @@ const HomePage = () => {
                 />
             </div>
         </div>
-        {signMethod=='signin' && <LoginModal/>}
-        {signMethod=='signup' && <SignupModal/>}
     </div>
   );
 }

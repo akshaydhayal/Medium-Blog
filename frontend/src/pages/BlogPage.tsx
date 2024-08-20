@@ -2,9 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useGetBlog } from "../hooks/useGetBlog";
 import { BiSolidLike } from "react-icons/bi";
 import { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
-import { BiSolidEdit } from "react-icons/bi";
 import { useUpdateBlog } from "../hooks/useUpdateBlog";
 import { useSelector } from "react-redux";
 import { store } from "../store/store";
@@ -88,7 +86,7 @@ const BlogPage = () => {
                 return <p className="text-slate-300 font-medium font-mono text-[18.5px] tracking-wide leading-normal">{para}</p>
             })}
         </div>
-        <div className="flex gap-4 py-3">
+        <div className="flex flex-wrap gap-4 py-3">
             {blog.topicTags.map((tag)=>{
                 return <button className="p-2 px-5 rounded-3xl text-slate-300
                  border border-slate-600 text-base bg-[#252525]">{tag}</button>

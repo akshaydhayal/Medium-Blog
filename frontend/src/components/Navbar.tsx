@@ -50,7 +50,7 @@ const Navbar = () => {
             className="text-base  text-slate-300 cursor-pointer 
              hover:text-slate-200 border border-slate-500 p-1 px-3 rounded-lg bg-slate-900 hover:bg-slate-800 hover:border-slate-400 font-medium"
             onClick={() => {
-              dispatch(authUser(null));
+              dispatch(authUser({username:null,token:null}));
             }}
           >
             Logout

@@ -4,12 +4,15 @@ import { FaUnlockAlt } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
 import { toggleSignMethod } from "../store/signMethodStore";
 import { useDispatch } from "react-redux";
+import { useSignupUser } from "../hooks/useSignupUser";
 
 const SignupModal = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
-  const [pasword, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch=useDispatch();
+
+  const signupUser=useSignupUser(username,email,password);
 
   return (
     <div className="h-screen w-screen fixed backdrop-blur-md inset-0 flex justify-center items-center">
@@ -54,13 +57,15 @@ const SignupModal = () => {
                     bg-[#252424] rounded-md focus:outline-0"
               type="password"
               placeholder="Enter Password"
-              value={pasword}
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
         </div>
-        <button className="bg-slate-200 text-xl font-medium rounded-sm w-3/5 p-2 tracking-wider ">
-          REGISTER
+        <button className="bg-slate-200 text-xl font-medium rounded-sm w-3/5 p-2
+         tracking-wider " onClick={()=>{
+            signupUser();
+         }}>REGISTER
         </button>
         <p className="text-slate-300 text-lg mt-4">
           Already have an Account ?{" "}
