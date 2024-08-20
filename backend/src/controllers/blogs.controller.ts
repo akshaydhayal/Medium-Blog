@@ -77,7 +77,7 @@ export async function createBlog(req:Request,res:Response){
 export async function updateBlog(req:Request,res:Response){
     try{
         const{blogId}=req.params;
-        const {title,subtitle,content,likes}=req.body;
+        const {title,subtitle,content,topicProfileImage,topicTags,likes}=req.body;
         let userId='';
         if(typeof(req.headers.userId)=='string'){
             userId=req.headers.userId;
@@ -93,10 +93,11 @@ export async function updateBlog(req:Request,res:Response){
         if(blogExists.authorId!=userId){
             return res.status(403).json("You are not the author of this blog");
         }
+        console.log("likes in updateblog controller : ",likes);
         const post=await prisma.post.update({
             where:{id:blogId},
             data:{
-                title,content,likes,subtitle
+                title,content,likes,subtitle,topicProfileImage,topicTags
             }
         });
         console.log(post);

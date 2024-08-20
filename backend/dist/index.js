@@ -13,7 +13,7 @@ dotenv_1.default.config();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: ['http://localhost:5173', 'http://localhost:5174'],
-    methods: [''],
+    methods: ['PUT'],
 }));
 //post - api/v1/users/signup
 //post - api/v1/users/signin

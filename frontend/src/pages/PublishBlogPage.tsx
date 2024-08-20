@@ -14,12 +14,8 @@ const PublishBlogPage = () => {
   const[enteredTag,setEnteredTag]=useState("");
   
   console.log(paragraph);
-  
-//   function handlePublishBlog(){
-//     usePublishBlog(title,subTitle,topicProfileImage,paragraph,topicTags);
-//   }
     
-    const publishBlog=usePublishBlog(title,subTitle,topicProfileImage,paragraph,topicTags);
+  const publishBlog=usePublishBlog(title,subTitle,topicProfileImage,paragraph,topicTags);
 
   return (
     <div className="w-screen h-auto min-h-[90vh] bg-[#121212] flex justify-center">
