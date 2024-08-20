@@ -7,6 +7,7 @@ import { store } from "./store/store";
 import FeedPage from "./pages/FeedPage";
 import BlogPage from "./pages/BlogPage";
 import PublishBlogPage from "./pages/PublishBlogPage";
+import UpdateBlogPage from "./pages/UpdateBlogPage";
 function App() {
 
   const appRouter=createBrowserRouter([
@@ -26,6 +27,9 @@ function App() {
     },{
       path:"/publish",
       element:<PublishBlogPage/>
+    },{
+      path:"/update/:blogId",
+      element:<UpdateBlogPage/>
     }
   ])
   return (
