@@ -3,6 +3,8 @@ import { usePublishBlog } from "../hooks/usePublishBlog";
 import { useParams } from "react-router-dom";
 import { useGetBlog } from "../hooks/useGetBlog";
 import { useUpdateBlog } from "../hooks/useUpdateBlog";
+import LoginError from "../components/LoginError";
+import { useSelector } from "react-redux";
 
 const UpdateBlogPage = () => {
   const {blogId}=useParams();
@@ -59,6 +61,12 @@ const UpdateBlogPage = () => {
         setLikes(blog.likes);
       }
   },[blog])
+
+  const authUser = useSelector((store) => store.authUser.username);
+  console.log("authUser : ", authUser);
+  if (!authUser) {
+    return <LoginError />;
+  }
 
   if(!blog){
     return <h1>Loading</h1>

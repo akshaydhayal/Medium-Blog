@@ -1,11 +1,19 @@
 import { BiSolidLike } from "react-icons/bi";
 import useGetAllBlogs from "../hooks/useGetAllBlogs"
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { store } from "../store/store";
+import LoginError from "../components/LoginError";
 
 const FeedPage = () => {
   const blogs:any=useGetAllBlogs();
   const navigate=useNavigate();
 
+  const authUser=useSelector(store=>store.authUser.username);
+  console.log('authUser : ',authUser);
+  if(!authUser){
+    return <LoginError/>
+  }
   return (
     <div className='w-screen h-[90vh] bg-[#121212] flex justify-center'>
         <div className="w-2/3 h-full border-x border-x-slate-600 py-4 overflow-scroll overflow-x-hidden">

@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { usePublishBlog } from "../hooks/usePublishBlog";
+import { useSelector } from "react-redux";
+import LoginError from "../components/LoginError";
 
 const PublishBlogPage = () => {
   const [currentParaCount,setCurrentParaCount]=useState(1);
@@ -17,6 +19,11 @@ const PublishBlogPage = () => {
     
   const publishBlog=usePublishBlog(title,subTitle,topicProfileImage,paragraph,topicTags);
 
+  const authUser = useSelector((store) => store.authUser.username);
+  console.log("authUser : ", authUser);
+  if (!authUser) {
+    return <LoginError/>;
+  }
   return (
     <div className="w-screen h-auto min-h-[90vh] bg-[#121212] flex justify-center">
         <div className="w-[70vw] flex flex-col gap-4 py-8">

@@ -5,10 +5,13 @@ import { RxCross2 } from "react-icons/rx";
 import { FaHand } from "react-icons/fa6";
 import { toggleSignMethod } from "../store/signMethodStore";
 import { useDispatch } from "react-redux";
+import { useLoginUser } from "../hooks/useLoginUser";
 
 const LoginModal = () => {
     const [email,setEmail]=useState('');
-    const [pasword,setPassword]=useState('');
+    const [password,setPassword]=useState('');
+    const loginUser=useLoginUser(email,password);
+
     const dispatch=useDispatch();
 
   return (
@@ -33,10 +36,13 @@ const LoginModal = () => {
                 <FaUnlockAlt className="text-white h-full w-12 p-2 px-3 bg-slate-700"/>
                 <input className="w-full h-full p-1 px-4 text-slate-200 placeholder:text-slate-400
                     bg-[#252424] rounded-md focus:outline-0" type="password" placeholder="Enter Password"
-                    value={pasword} onChange={(e)=>setPassword(e.target.value)} />
+                    value={password} onChange={(e)=>setPassword(e.target.value)} />
             </div>
         </div>
-        <button className="bg-slate-200 text-xl font-medium rounded-sm w-3/5 p-2 tracking-wider ">LOGIN</button>
+        <button className="bg-slate-200 text-xl font-medium rounded-sm w-3/5 p-2 
+        tracking-wider " onClick={()=>{
+            loginUser();
+        }}>LOGIN</button>
         <p className="text-slate-300 text-lg mt-4">Don't have an Account ?  
             <span className="font-medium text-slate-200 hover:underline cursor-pointer" onClick={()=>{
                 dispatch(toggleSignMethod('signup'));
