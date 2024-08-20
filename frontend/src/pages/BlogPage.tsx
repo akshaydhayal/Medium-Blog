@@ -62,7 +62,10 @@ const BlogPage = () => {
 
         <div className="flex flex-col gap-8">
             {/* <p className="text-slate-300 text-[18.5px] tracking-wide leading-relaxed">{blog.content}</p> */}
-            <p className="text-slate-300 font-medium font-mono text-[18.5px] tracking-wide leading-normal">{blog.content}</p>
+            {/* <p className="text-slate-300 font-medium font-mono text-[18.5px] tracking-wide leading-normal">{blog.content}</p> */}
+            {blog.content.map((para)=>{
+                return <p className="text-slate-300 font-medium font-mono text-[18.5px] tracking-wide leading-normal">{para}</p>
+            })}
         </div>
         <div className="flex gap-4 py-3">
             {blog.topicTags.map((tag)=>{
