@@ -9,11 +9,12 @@ const FeedPage = () => {
   const blogs:any=useGetAllBlogs();
   const navigate=useNavigate();
 
-  const authUser=useSelector(store=>store.authUser.username);
-  console.log('authUser : ',authUser);
-  if(!authUser){
-    return <LoginError/>
-  }
+//   const authUser=useSelector(store=>store.authUser.username);
+//   console.log('authUser : ',authUser);
+//   if(!authUser){
+//     return <LoginError/>
+//   }
+
   return (
     <div className='w-screen h-[90vh] bg-[#121212] flex justify-center'>
         <div className="w-2/3 h-full border-x border-x-slate-600 py-4 overflow-scroll overflow-x-hidden">

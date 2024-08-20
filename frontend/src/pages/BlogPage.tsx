@@ -6,6 +6,9 @@ import { FaEdit } from "react-icons/fa";
 import { FiEdit } from "react-icons/fi";
 import { BiSolidEdit } from "react-icons/bi";
 import { useUpdateBlog } from "../hooks/useUpdateBlog";
+import { useSelector } from "react-redux";
+import { store } from "../store/store";
+import toast from "react-hot-toast";
 
 const BlogPage = () => {
   const {blogId}=useParams();
@@ -22,7 +25,8 @@ const BlogPage = () => {
   console.log("likes in BlogPage",likeCount);
   
   const updateBlog=useUpdateBlog(blogId,blog?.title,blog?.subtitle,blog?.content,blog?.topicProfileImage,blog?.topicTags,likeCount);
-  
+
+  const authUser=useSelector(store=>store.authUser.username);
   if(!blog){
       return <p>Loading</p>
     }
@@ -51,18 +55,17 @@ const BlogPage = () => {
           </div>
           <div className="flex justify-between items-center border-y border-y-slate-700 py-3">
             <div className="flex items-center gap-2 px-2">
-                <BiSolidLike className="text-slate-400 h-6 w-6 active:text-slate-200" onClick={()=>{
-                    // setLikeCount(old=>old+1);
-                    setLikeCount(likeCount+1);
-                    updateBlog(); 
+                <BiSolidLike className="text-slate-400 h-6 w-6 active:text-slate-200 cursor-pointer hover:text-slate-300" onClick={()=>{
+                    if(authUser){
+                        setLikeCount(likeCount+1);
+                        updateBlog(); 
+                    }else{
+                        toast.error("Login first to like the Blog.",{
+                            style:{fontWeight:"500"}
+                        })
+                    }
                 }} />
                 <p className="text-slate-300 text-lg">{likeCount}</p>
-            </div>
-            <div className="flex gap-1 items-center cursor-pointer pr-8" onClick={()=>{
-                navigate(`/publish`)
-            }}>
-                <FiEdit className="h-6 w-6 text-slate-300 hover:text-slate-100"/>
-                <p className="text-slate-300 text-lg hover:text-slate-100">Write</p>
             </div>
 
             <div className="flex gap-1 items-center cursor-pointer pr-8" onClick={()=>{

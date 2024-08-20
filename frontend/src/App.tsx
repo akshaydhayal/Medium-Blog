@@ -1,44 +1,17 @@
-import { createBrowserRouter,RouterProvider } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
+import {Outlet } from "react-router-dom";
+
 import Navbar from "./components/Navbar";
 import { Provider } from "react-redux";
 import { store } from "./store/store";
-import FeedPage from "./pages/FeedPage";
-import BlogPage from "./pages/BlogPage";
-import PublishBlogPage from "./pages/PublishBlogPage";
-import UpdateBlogPage from "./pages/UpdateBlogPage";
 import { Toaster } from "react-hot-toast";
-function App() {
 
-  const appRouter=createBrowserRouter([
-    {
-      path:"/",
-      element:<HomePage/>
-    },
-    {
-      path:"/login",
-      element:<LoginPage/>
-    },{
-      path:"/feeds",
-      element:<FeedPage/>
-    },{
-      path:"/:blogId",
-      element:<BlogPage/>
-    },{
-      path:"/publish",
-      element:<PublishBlogPage/>
-    },{
-      path:"/update/:blogId",
-      element:<UpdateBlogPage/>
-    }
-  ])
+function App() {
   return (
     <Provider store={store}>
       <div>
-        <Toaster/>
-        <Navbar/>
-        <RouterProvider router={appRouter}/>
+          <Toaster/>
+          <Navbar/>
+          <Outlet/>
       </div>
     </Provider>
   )
