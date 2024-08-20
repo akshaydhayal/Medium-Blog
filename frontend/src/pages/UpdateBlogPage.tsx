@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { usePublishBlog } from "../hooks/usePublishBlog";
 import { useParams } from "react-router-dom";
 import { useGetBlog } from "../hooks/useGetBlog";
 import { useUpdateBlog } from "../hooks/useUpdateBlog";
 import LoginError from "../components/LoginError";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const UpdateBlogPage = () => {
   const {blogId}=useParams();
@@ -46,7 +46,6 @@ const UpdateBlogPage = () => {
 
 
   console.log('bloggg :',blog);
-  console.log('title :',title);
   console.log('paragraph :',paragraph);
 
   useEffect(()=>{
@@ -72,19 +71,21 @@ const UpdateBlogPage = () => {
     return <h1>Loading</h1>
   }
 
-//   const publishBlog = usePublishBlog(
-//     title,
-//     subTitle,
-//     topicProfileImage,
-//     paragraph,
-//     topicTags
-//   );
-
   return (
     <div className="w-screen h-auto min-h-[90vh] bg-[#121212] flex justify-center">
-      <div className="w-[70vw] flex flex-col gap-4 py-8">
+      <div className="w-[70vw] flex flex-col gap-4 py-4">
+        <div className="flex justify-end">
+            <button className="p-1 px-3 bg-[#1c7619] hover:bg-[#1a8917] text-slate-50 font-medium
+             w-max rounded-3xl" onClick={()=>{
+                const toastid = toast.loading("Saving...", {
+                  style: { color: "green", fontWeight: "500" },
+                });
+                setTimeout(() => toast.dismiss(toastid), 2000);
+                updateBlog();
+            }}>Save and Publish</button>
+        </div>
         <input
-          className="p-1 px-4 text-[40px] cursor-text w-full bg-[#121212] text-slate-200 font-serif
+          className="p-[5px] px-4 text-[40px] cursor-text w-full bg-[#121212] text-slate-200 font-serif
              placeholder:text-slate-200 font-medium border-b border-b-slate-700 focus:border-b active:border-none focus:outline-none"
           type="text"
           placeholder="Title"
@@ -105,17 +106,6 @@ const UpdateBlogPage = () => {
           }}
         />
 
-        {/* <input
-          className="px-4 text-lg cursor-text w-full bg-[#121212] text-slate-400 font-mono 
-            tracking-tighter placeholder:text-slate-500   focus:border-b active:border-none focus:outline-none"
-          type="url"
-          placeholder="Topic Profile Image url"
-          value={topicProfileImage}
-          onChange={(e) => {
-            setTopicProfileImage(e.target.value);
-          }}
-        /> */}
-
         <div className="flex flex-col gap-2">
             <div className="flex w-full items-center">
                 <input className=" px-4 text-lg cursor-text w-full bg-[#121212] text-slate-400 font-mono 
@@ -127,10 +117,6 @@ const UpdateBlogPage = () => {
                     setTopicProfileImage(e.target.value);
                 }}
                 />
-                {/* <button className="p-1 px-2 w-1/5 font-medium  bg-[#0c5a1e] text-slate-100 
-                rounded-md" onClick={()=>{
-                    setTopicProfileImage(e.target.value);
-                }}>Update Photo</button> */}
             </div>
           <img
             className="w-full h-[85vh] object-cover rounded-sm"
@@ -139,7 +125,6 @@ const UpdateBlogPage = () => {
           />
         </div>
         <div className="flex flex-col gap-8 py-6">
-          {/* {paragraph.map((p) => { */}
           {paragraph.map((p,index) => {
             return (
               <div className="flex gap-4 w-full items-center" key={p.id}>
@@ -152,7 +137,6 @@ const UpdateBlogPage = () => {
                         { id: paragraph.length + 1, content: "" },
                       ]);
                       setCurrentParaCount((old) => old + 1);
-                      //   setCurrentParaCount(p.id);
                     }}
                   >
                     +
@@ -229,13 +213,12 @@ const UpdateBlogPage = () => {
           </div>
         </div>
 
-        <button
+        {/* <button
           className="text-slate-300 p-2 px-4 rounded-md text-lg font-medium border"
-            // onClick={() => useUpdateBlog(blogId,title,subTitle,paragraph,topicProfileImage,topicTags)}
             onClick={() => updateBlog()}
         >
           Update Blog
-        </button>
+        </button> */}
       </div>
     </div>
   );

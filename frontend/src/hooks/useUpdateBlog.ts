@@ -1,8 +1,9 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export function useUpdateBlog(blogId:String,title:String,subtitle:String,content:{id:Number,content:String}[],
     topicProfileImage:String,topicTags:String[],likes:Number){
-        
+    const navigate=useNavigate(); 
     async function updateBlog(){
         const modifiedContent=(content && content[0].content)?content.map((para)=>para.content):content;
         console.log("modified Content : ",modifiedContent);
@@ -26,6 +27,9 @@ export function useUpdateBlog(blogId:String,title:String,subtitle:String,content
             }
         );
         console.log(response.data);
+        if(response.data.id){
+            navigate(`/${response.data.id}`);
+        }
     }
     return updateBlog;      
 }

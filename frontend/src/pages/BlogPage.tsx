@@ -58,11 +58,18 @@ const BlogPage = () => {
                 }} />
                 <p className="text-slate-300 text-lg">{likeCount}</p>
             </div>
-            <div className="flex gap-2 items-center cursor-pointer pr-8" onClick={()=>{
-                navigate(`/update/${blog.id}`)
+            <div className="flex gap-1 items-center cursor-pointer pr-8" onClick={()=>{
+                navigate(`/publish`)
             }}>
                 <FiEdit className="h-6 w-6 text-slate-300 hover:text-slate-100"/>
                 <p className="text-slate-300 text-lg hover:text-slate-100">Write</p>
+            </div>
+
+            <div className="flex gap-1 items-center cursor-pointer pr-8" onClick={()=>{
+                navigate(`/update/${blog.id}`)
+            }}>
+                <FiEdit className="h-6 w-6 text-slate-300 hover:text-slate-100"/>
+                <p className="text-slate-300 text-lg hover:text-slate-100">Edit</p>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useState } from "react"
 import { usePublishBlog } from "../hooks/usePublishBlog";
 import { useSelector } from "react-redux";
 import LoginError from "../components/LoginError";
+import toast from "react-hot-toast";
 
 const PublishBlogPage = () => {
   const [currentParaCount,setCurrentParaCount]=useState(1);
@@ -26,7 +27,33 @@ const PublishBlogPage = () => {
   }
   return (
     <div className="w-screen h-auto min-h-[90vh] bg-[#121212] flex justify-center">
-        <div className="w-[70vw] flex flex-col gap-4 py-8">
+        <div className="w-[70vw] flex flex-col gap-4 py-2">
+            <div className="flex justify-end">
+                <button className="p-[5px] px-4 bg-[#1c7619] hover:bg-[#1a8917] text-slate-50 
+                font-medium w-max rounded-3xl" onClick={()=>{
+                    publishBlog();
+
+                    // const p=new Promise((res)=>{
+                    //     setTimeout(()=>{
+                    //         res('hello');
+                    //     },2000)
+                    // })
+
+                    // toast.promise(setTimeout(()=>{},2000),{
+                    //     loading:"Publishing"
+                    // })
+                    // toast.promise(p,{
+                    //     loading:<p className="bg-[#121212] text-slate-100">Publishing</p>,
+                    //     success:"s",
+                    //     error:"e"
+                    // })
+                    
+                    const toastid=toast.loading('Publishing...',{
+                        style:{color:"green",fontWeight:"500"}
+                    });
+                    setTimeout(()=>toast.dismiss(toastid),2000);
+                }}>Publish Blog</button>
+            </div>
             <input className="p-1 px-4 text-[40px] cursor-text w-full bg-[#121212] text-slate-200 font-serif
              placeholder:text-slate-200 font-medium border-b border-b-slate-700 focus:border-b active:border-none focus:outline-none"
              type="text" placeholder="Title" value={title} onChange={(e)=>{
@@ -89,9 +116,10 @@ const PublishBlogPage = () => {
                     )})}
                 </div>
             </div>
-
-            <button className="text-slate-300 p-2 px-4 rounded-md text-lg font-medium border" 
-            onClick={()=>publishBlog()}>Publish Blog</button>
+            {/* <div className="flex justify-end mt-4">
+                <button className="text-slate-50 p-[6px] px-8 rounded-2xl w-max text-lg font-medium border bg-[#1a8917]" 
+                onClick={()=>publishBlog()}>Publish Blog</button>
+            </div> */}
              
         </div>
     </div>

@@ -8,6 +8,7 @@ import FeedPage from "./pages/FeedPage";
 import BlogPage from "./pages/BlogPage";
 import PublishBlogPage from "./pages/PublishBlogPage";
 import UpdateBlogPage from "./pages/UpdateBlogPage";
+import { Toaster } from "react-hot-toast";
 function App() {
 
   const appRouter=createBrowserRouter([
@@ -35,6 +36,7 @@ function App() {
   return (
     <Provider store={store}>
       <div>
+        <Toaster/>
         <Navbar/>
         <RouterProvider router={appRouter}/>
       </div>
