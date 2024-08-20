@@ -22,11 +22,16 @@ model User {
   posts Post[] 
 }
 
+// model PostContent{
+//   id Int @id
+//   content String
+// }
+
 model Post{
   id String @id @default(uuid())
   title String
   subtitle String
-  content String
+  content String[]
   topicTags String[]
   topicProfileImage String
   publishedTime DateTime @default(now())
