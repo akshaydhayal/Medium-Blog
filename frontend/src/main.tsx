@@ -5,7 +5,6 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import FeedPage from './pages/FeedPage.tsx'
 import HomePage from './pages/HomePage.tsx'
-import LoginPage from './pages/LoginPage.tsx'
 import BlogPage from './pages/BlogPage.tsx'
 import PublishBlogPage from './pages/PublishBlogPage.tsx'
 import UpdateBlogPage from './pages/UpdateBlogPage.tsx'
@@ -20,10 +19,6 @@ const appRouter = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
-      },
-      {
-        path: "/login",
-        element: <LoginPage/>,
       },
       {
         path: "/feeds",

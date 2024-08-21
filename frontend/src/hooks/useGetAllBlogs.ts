@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { addBlogs } from "../store/blogCache";
 
 export default function useGetAllBlogs(){
-    const [blogs,setBlogs]=useState();
+    const [blogs,setBlogs]=useState([]);
     const dispatch=useDispatch();
     useEffect(()=>{
         async function getAllBlogs(){

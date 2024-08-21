@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useUpdateBlog } from "../hooks/useUpdateBlog";
 import { useSelector } from "react-redux";
-import { store } from "../store/store";
 import toast from "react-hot-toast";
+import { RootState } from "../store/store";
 
 const BlogPage = () => {
   const {blogId}=useParams();
   let blog=blogId? useGetBlog(blogId):null;
-  const [likeCount,setLikeCount]=useState(0);
+  const [likeCount,setLikeCount]=useState<number>(0);
   const navigate=useNavigate();
   
   useEffect(()=>{
@@ -22,9 +22,15 @@ const BlogPage = () => {
 
   console.log("likes in BlogPage",likeCount);
   
-  const updateBlog=useUpdateBlog(blogId,blog?.title,blog?.subtitle,blog?.content,blog?.topicProfileImage,blog?.topicTags,likeCount);
+  let updateBlog:ReturnType<typeof useUpdateBlog>;
+  if(blogId && blog){
+      const updatedContent=blog.content.map((p,ind)=>({id:ind+1,content:p}))
+      console.log('updatedContent',updatedContent);
+    //   updateBlog=useUpdateBlog(blogId,blog?.title,blog?.subtitle,updatedContent,blog?.topicProfileImage,blog?.topicTags,likeCount);
+//     //   updateBlog=useUpdateBlog(blogId,blog?.title,blog?.subtitle,blog?.content,blog?.topicProfileImage,blog?.topicTags,likeCount);
+  }
 
-  const authUser=useSelector(store=>store.authUser.username);
+  const authUser=useSelector((store:RootState)=>store.authUser.username);
   if(!blog){
       return <p>Loading</p>
     }
@@ -47,7 +53,7 @@ const BlogPage = () => {
             <div>
               <p className="text-xl text-slate-300">{blog.user.username}</p>
               <p className="text-sm text-slate-400">
-                {new Date(blog.publishedTime).toDateString()}
+                {blog.publishedTime && new Date(blog.publishedTime).toDateString()}
               </p>
             </div>
           </div>
@@ -81,7 +87,6 @@ const BlogPage = () => {
         </div>
 
         <div className="flex flex-col gap-8">
-            {/* <p className="text-slate-300 text-[18.5px] tracking-wide leading-relaxed">{blog.content}</p> */}
             {blog.content.map((para)=>{
                 return <p className="text-slate-300 font-medium font-mono text-[18.5px] tracking-wide leading-normal">{para}</p>
             })}

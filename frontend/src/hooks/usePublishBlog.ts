@@ -1,13 +1,13 @@
-import { store } from './../store/store';
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../store/store";
 
 export function usePublishBlog(title:String,subtitle:String,topicProfileImage:String,
                 content:{id:Number,content:String}[],topicTags:String[]){
 
     const navigate=useNavigate();
-    const authUser=useSelector((store)=>store.authUser);
+    const authUser=useSelector((store:RootState)=>store.authUser);
 
     async function publishBlog(){
         const modifiedContent=content.map((c)=>c.content);
@@ -18,7 +18,6 @@ export function usePublishBlog(title:String,subtitle:String,topicProfileImage:St
             headers: {
                 "Content-Type": "application/json",
                 "jwtToken":authUser.token,
-                // "jwtToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjIxYWUxMzQwLWI4MjQtNDBkZi1hMTY2LTBkMDAzNjYwYTJiMyIsImlhdCI6MTcyNDAzNzk3NX0.fSYMFkPHWKhgWFXgbPO0yuVRPa5Et9eU3EJaUY83uNA",
             },
             }
         );

@@ -1,0 +1,14 @@
+version: "3.8"
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - 5173:5173
+    environment:
+      VITE_BACKEND_API: 'http://localhost:3001/api/v1'
+
+  
+  backend:
+    build: ./backend
+    ports:
+      - 3001:3001

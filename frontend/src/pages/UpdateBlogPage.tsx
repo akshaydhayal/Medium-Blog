@@ -5,22 +5,30 @@ import { useUpdateBlog } from "../hooks/useUpdateBlog";
 import LoginError from "../components/LoginError";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { RootState } from "../store/store";
 
 const UpdateBlogPage = () => {
   const {blogId}=useParams();
-  const blog=useGetBlog(blogId);
+  let blog:any;
+  if(blogId){
+    blog=useGetBlog(blogId);
+  }
 
   const [currentParaCount, setCurrentParaCount] = useState(1);
-  const [paragraph, setParagraph] = useState([]);
+  const [paragraph, setParagraph] = useState<{id:number,content:string}[]>([]);
 
   const [title, setTitle] = useState("");
   const [subTitle, setSubTitle] = useState("");
   const [topicProfileImage, setTopicProfileImage] = useState("");
-  const [topicTags, setTopicTags] = useState([]);
+  const [topicTags, setTopicTags] = useState<string[]>([]);
   const [likes, setLikes] = useState(0);
   const [enteredTag, setEnteredTag] = useState("");
 
-  const updateBlog=useUpdateBlog(blogId,title,subTitle,paragraph,topicProfileImage,topicTags,likes);
+  let updateBlog:ReturnType<typeof useUpdateBlog>;
+  if(blogId){
+      updateBlog=useUpdateBlog(blogId,title,subTitle,paragraph,topicProfileImage,topicTags,likes);
+
+  }
 
   const divRefs = useRef([]);
 
@@ -29,7 +37,7 @@ const UpdateBlogPage = () => {
   }, [paragraph]);
 
 
-  const placeCaretAtEnd = (el) => {
+  const placeCaretAtEnd = (el:any) => {
     el.focus();
     if (
       typeof window.getSelection !== "undefined" &&
@@ -39,8 +47,8 @@ const UpdateBlogPage = () => {
       range.selectNodeContents(el);
       range.collapse(false);
       const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
+      sel?.removeAllRanges();
+      sel?.addRange(range);
     }
   };
 
@@ -52,7 +60,7 @@ const UpdateBlogPage = () => {
       if(blog){
         setTitle(blog.title);
         setSubTitle(blog.subtitle);
-        setParagraph(blog.content.map((p,ind)=>{
+        setParagraph(blog.content.map((p:string,ind:number)=>{
             return {id:ind+1,content:p}
         }))
         setTopicProfileImage(blog.topicProfileImage);
@@ -61,7 +69,7 @@ const UpdateBlogPage = () => {
       }
   },[blog])
 
-  const authUser = useSelector((store) => store.authUser.username);
+  const authUser = useSelector((store:RootState) => store.authUser.username);
   console.log("authUser : ", authUser);
   if (!authUser) {
     return <LoginError />;
@@ -125,7 +133,7 @@ const UpdateBlogPage = () => {
           />
         </div>
         <div className="flex flex-col gap-8 py-6">
-          {paragraph.map((p,index) => {
+          {paragraph.map((p:{id:number,content:string},index:number) => {
             return (
               <div className="flex gap-4 w-full items-center" key={p.id}>
                 {currentParaCount == p.id && (
@@ -142,20 +150,17 @@ const UpdateBlogPage = () => {
                     +
                   </button>
                 )}
-                <div
-                  ref={(el) => (divRefs.current[index] = el)}
+                {/* @ts-ignore */}
+                <div ref={(el) => (divRefs.current[index] = el)}
                   className="text-slate-300 font-mono text-lg tracking-normal leading-normal 
                             p-4 border border-slate-700 w-full focus:outline-slate-400 focus:outline-dashed"
                   contentEditable
-                  onChange={(e) => {
-                    console.log("eee : ", e.target.value);
-                  }}
                   onClick={() => setCurrentParaCount(p.id)}
                   onInput={(e) => {
                     const newPara = paragraph.map((para) => {
                       return para.id != p.id
                         ? para
-                        : { id: para.id, content: e.currentTarget.textContent };
+                        : { id: para.id, content: e.currentTarget.textContent||"" };
                     });
                     setParagraph(newPara);
                     placeCaretAtEnd(divRefs.current[index]);
@@ -212,13 +217,6 @@ const UpdateBlogPage = () => {
             })}
           </div>
         </div>
-
-        {/* <button
-          className="text-slate-300 p-2 px-4 rounded-md text-lg font-medium border"
-            onClick={() => updateBlog()}
-        >
-          Update Blog
-        </button> */}
       </div>
     </div>
   );

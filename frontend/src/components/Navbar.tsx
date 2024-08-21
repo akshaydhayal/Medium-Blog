@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { toggleSignMethod } from "../store/signMethodStore";
-import { store } from "../store/store";
 import { authUser } from "../store/authUserStore";
 import { useNavigate } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
+import { RootState } from "../store/store";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const authUsername = useSelector((store) => store.authUser.username);
+  const authUsername = useSelector((store:RootState) => store.authUser.username);
   return (
     <div className="w-screen h-[10vh] border-b border-b-slate-700 flex items-center justify-between bg-[#121212] px-10">
       <p
@@ -39,7 +39,6 @@ const Navbar = () => {
             hover:underline hover:text-slate-200"
             onClick={() => {
               dispatch(toggleSignMethod("signin"));
-              // navigate('/signin');
             }}
           >
             Sign in

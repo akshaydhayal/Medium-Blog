@@ -1,11 +1,15 @@
 import { BiSolidLike } from "react-icons/bi";
 import useGetAllBlogs from "../hooks/useGetAllBlogs"
 import { useNavigate } from "react-router-dom";
-import { store } from "../store/store";
+import { Blog } from "../store/blogCache";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 const FeedPage = () => {
-  const blogs:any=useGetAllBlogs();
+  const blogs:Blog[]=useGetAllBlogs();
   const navigate=useNavigate();
+  const blogsCached=useSelector((store:RootState)=>store.blogCache.cache);
+  console.log('cachedBlogs : ',blogsCached);
 
   return (
     <div className='w-screen h-[90vh] bg-[#121212] flex justify-center'>
@@ -36,7 +40,7 @@ const FeedPage = () => {
                             </p>
                             <div className="flex items-center gap-10 px-2">
                               <p className="text-slate-400 text-sm">
-                                {new Date(blog.publishedTime).toDateString()}
+                                {blog.publishedTime && new Date(blog.publishedTime).toDateString()}
                               </p>
                               <div className="flex items-center gap-1">
                                 <BiSolidLike className="text-slate-400 h-5 w-5" />

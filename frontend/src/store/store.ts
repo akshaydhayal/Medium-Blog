@@ -10,3 +10,6 @@ export const store=configureStore({
         authUser:authUserStore
     }
 })
+
+export type RootState=ReturnType<typeof store.getState>;
+export type typeAppDispatch=typeof store.dispatch;

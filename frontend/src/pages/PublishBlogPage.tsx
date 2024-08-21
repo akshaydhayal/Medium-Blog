@@ -3,6 +3,7 @@ import { usePublishBlog } from "../hooks/usePublishBlog";
 import { useSelector } from "react-redux";
 import LoginError from "../components/LoginError";
 import toast from "react-hot-toast";
+import { RootState } from "../store/store";
 
 const PublishBlogPage = () => {
   const [currentParaCount,setCurrentParaCount]=useState(1);
@@ -13,14 +14,14 @@ const PublishBlogPage = () => {
   const [title,setTitle]=useState("");
   const [subTitle,setSubTitle]=useState("");
   const [topicProfileImage,setTopicProfileImage]=useState("");
-  const [topicTags,setTopicTags]=useState([]);
+  const [topicTags,setTopicTags]=useState<string[]>([]);
   const[enteredTag,setEnteredTag]=useState("");
   
   console.log(paragraph);
     
   const publishBlog=usePublishBlog(title,subTitle,topicProfileImage,paragraph,topicTags);
 
-  const authUser = useSelector((store) => store.authUser.username);
+  const authUser = useSelector((store:RootState) => store.authUser.username);
   console.log("authUser : ", authUser);
   if (!authUser) {
     return <LoginError/>;
@@ -84,7 +85,7 @@ const PublishBlogPage = () => {
                             p-4 border border-slate-700 w-full focus:outline-slate-400 focus:outline-dashed"
                             contentEditable onInput={(e)=>{
                                 const newPara=paragraph.map((para)=>{
-                                    return (para.id!=p.id)? para: {id:para.id, content:e.currentTarget.textContent};
+                                    return (para.id!=p.id)? para: {id:para.id, content:e.currentTarget.textContent?e.currentTarget.textContent:""};
                                 })
                                 setParagraph(newPara);
                             }}>{p.content}</div>
@@ -115,12 +116,7 @@ const PublishBlogPage = () => {
                         </div>
                     )})}
                 </div>
-            </div>
-            {/* <div className="flex justify-end mt-4">
-                <button className="text-slate-50 p-[6px] px-8 rounded-2xl w-max text-lg font-medium border bg-[#1a8917]" 
-                onClick={()=>publishBlog()}>Publish Blog</button>
-            </div> */}
-             
+            </div>     
         </div>
     </div>
   )
