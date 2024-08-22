@@ -1,0 +1,24 @@
+name: "Building the frontend code on PR"
+
+on:
+  pull_request:
+    branches:
+      - "**"
+jobs:
+  build frontend:
+    name: "build the code"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout the code"
+        uses: actions/checkout@v3
+
+      - name: "setup node"
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name : "install npm dep"
+        run: cd frontend && npm install && cd ..
+
+      - name: "build the code"
+        run: cd frontend && npm run build && cd ..
