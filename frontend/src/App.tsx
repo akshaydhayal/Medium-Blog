@@ -7,6 +7,7 @@ import LoginModal from "./components/LoginModal";
 import SignupModal from "./components/SignupModal";
 import { RootState } from "./store/store";
 
+
 function App() {
   const signMethod = useSelector((store:RootState) => store.signMethod.value);
   console.log("signMethod : ", signMethod);
