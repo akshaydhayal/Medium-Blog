@@ -19,10 +19,10 @@ jobs:
           node-version: 20
 
       - name: "install the npm dep"
-        run: npm install
+        run: cd backend && npm install && cd ..
 
       - name: "build the backend code"
-        run: npm run build
+        run: cd backend && npm run build && ..
 
       - name: login to Docker
         uses: docker/login-action@v3
