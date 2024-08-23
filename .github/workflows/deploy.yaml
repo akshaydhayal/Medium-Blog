@@ -13,16 +13,16 @@ jobs:
       - name: "Checkout the backend code"
         uses: actions/checkout@v4
 
-      - name: "setup node.js"
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      # - name: "setup node.js"
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20
 
-      - name: "install the npm dep"
-        run: cd backend && npm install && cd ..
+      # - name: "install the npm dep"
+      #   run: cd backend && npm install && cd ..
 
-      - name: "build the backend code"
-        run: cd backend && npm run build && cd ..
+      # - name: "build the backend code"
+      #   run: cd backend && npm run build && cd ..
 
       - name: login to Docker
         uses: docker/login-action@v3
@@ -45,7 +45,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo docker pull akshaydhayal/medium_blog_backend:latest
-            sudo docker stop mediumBackend || true
-            sudo docker rm mediumBackend || true
             sudo docker run -d -p 3001:3001 akshaydhayal/medium_blog_backend:latest --name mediumBackend
         
