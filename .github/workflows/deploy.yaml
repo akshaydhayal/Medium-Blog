@@ -45,5 +45,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo docker pull akshaydhayal/medium_blog_backend:latest
-            sudo docker run -d -p 3001:3001 akshaydhayal/medium_blog_backend:latest --name mediumBackend
+            sudo docker run -d -p 3001:3001 -e DATABASE_URL=${{ secrets.DATABASE_URL }} akshaydhayal/medium_blog_backend:latest --name mediumBackend1
         
