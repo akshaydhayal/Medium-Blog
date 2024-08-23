@@ -38,7 +38,7 @@ jobs:
           tags: akshaydhayal/medium_blog_backend:latest
 
       - name: "ssh and push to ec2"
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{secrets.EC2_USERNAME }}
