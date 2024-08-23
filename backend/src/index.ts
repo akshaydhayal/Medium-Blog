@@ -18,7 +18,7 @@ app.use(cors({
 //post - api/v1/blogs/create
 //put - api/v1/blogs/:blogId 
 //get - api/v1/blogs
- //get - api/v1/blogs/:blogId
+//get - api/v1/blogs/:blogId
 
 app.use("/api/v1/users/",userRouter);
 app.use("/api/v1/blogs/",blogRouter);
