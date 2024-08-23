@@ -45,5 +45,30 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             sudo docker pull akshaydhayal/medium_blog_backend:latest
+            sudo docker stop mediumBackend3 || true
+            sudo docker rm mediumBackend3 || true
             sudo docker run -p 3001:3001 -e DATABASE_URL=${{ secrets.DATABASE_URL }} --name mediumBackend3 akshaydhayal/medium_blog_backend:latest
-        
+
+
+    frontendDeploy:  
+      name: "deploy the frontend code"
+      runs-on: ubuntu-latest
+      steps:
+        - name: "checkout the code"
+          uses: actions/checkout@v4
+
+        - name: "install the frontend librarries"
+          run: cd frontend && npm install && cd ..
+
+        - name: "build the frontend folder"
+          run: npm run build
+
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.S3_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+            aws-region: us-east-1
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./frontend/build s3://medium-blog-frontend --delete
