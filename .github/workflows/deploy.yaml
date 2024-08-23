@@ -6,48 +6,48 @@ on:
       - main
 
 jobs:
-  backendDeploy:
-    name: "deploy the backend code"
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout the backend code"
-        uses: actions/checkout@v4
+  # backendDeploy:
+  #   name: "deploy the backend code"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: "Checkout the backend code"
+  #       uses: actions/checkout@v4
 
-      # - name: "setup node.js"
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: 20
+  #     # - name: "setup node.js"
+  #     #   uses: actions/setup-node@v4
+  #     #   with:
+  #     #     node-version: 20
 
-      # - name: "install the npm dep"
-      #   run: cd backend && npm install && cd ..
+  #     # - name: "install the npm dep"
+  #     #   run: cd backend && npm install && cd ..
 
-      # - name: "build the backend code"
-      #   run: cd backend && npm run build && cd ..
+  #     # - name: "build the backend code"
+  #     #   run: cd backend && npm run build && cd ..
 
-      - name: login to Docker
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN}}
+  #     - name: login to Docker
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_TOKEN}}
 
-      - name: "Build and Push Docker image to DockerHub"
-        uses: docker/build-push-action@v3
-        with:
-          context: ./backend
-          push: true
-          tags: akshaydhayal/medium_blog_backend:latest
+  #     - name: "Build and Push Docker image to DockerHub"
+  #       uses: docker/build-push-action@v3
+  #       with:
+  #         context: ./backend
+  #         push: true
+  #         tags: akshaydhayal/medium_blog_backend:latest
 
-      - name: "ssh and push to ec2"
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            sudo docker pull akshaydhayal/medium_blog_backend:latest
-            sudo docker stop mediumBackend3 || true
-            sudo docker rm mediumBackend3 || true
-            sudo docker run -p 3001:3001 -e DATABASE_URL=${{ secrets.DATABASE_URL }} --name mediumBackend3 akshaydhayal/medium_blog_backend:latest
+  #     - name: "ssh and push to ec2"
+  #       uses: appleboy/ssh-action@v1.0.3
+  #       with:
+  #         host: ${{ secrets.EC2_HOST }}
+  #         username: ${{ secrets.EC2_USERNAME }}
+  #         key: ${{ secrets.EC2_SSH_KEY }}
+  #         script: |
+  #           sudo docker pull akshaydhayal/medium_blog_backend:latest
+  #           sudo docker stop mediumBackend3 || true
+  #           sudo docker rm mediumBackend3 || true
+  #           sudo docker run -p 3001:3001 -e DATABASE_URL=${{ secrets.DATABASE_URL }} --name mediumBackend3 akshaydhayal/medium_blog_backend:latest
 
 
   frontendDeploy:  
@@ -68,6 +68,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.S3_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.S3_SESSION_TOKEN }}
           aws-region: us-east-1
 
       - name: Deploy static site to S3 bucket
