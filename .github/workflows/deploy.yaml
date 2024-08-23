@@ -36,3 +36,13 @@ jobs:
           context: ./backend
           push: true
           tags: akshaydhayal/medium_blog_backend:latest
+
+      - name: "ssh and push to ec2"
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{secrets.EC2_USERNAME }}
+          key: $ {{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo docker run -d -p 3001:3001 akshaydhayal/medium_blog_backend:latest --name mediumBackend
+        
