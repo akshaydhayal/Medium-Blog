@@ -12,6 +12,7 @@ app.use(cors({
     methods:['PUT'],
 }));
 
+//all route handlers
 //post - api/v1/users/signup
 //post - api/v1/users/signin
 //post - api/v1/blogs/create
