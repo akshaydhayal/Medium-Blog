@@ -1,0 +1,37 @@
+name: "Build and Deploy the frontend to S3"
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+jobs:
+  frontendDeploy:  
+    name: "deploy the frontend code"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "checkout the code"
+        uses: actions/checkout@v4
+
+      - name: "setup node"
+        uses: actions.setup-node@v4
+        with:
+          node-version: 20
+
+      - name: "install the frontend librarries"
+        run: cd frontend && npm install && cd ..
+
+      - name: "build the frontend folder"
+        run: cd frontend && npm run build && cd ..
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.S3_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.S3_SESSION_TOKEN }}
+          aws-region: us-east-1
+
+      - name: Deploy static site to S3 bucket
+        run: aws s3 sync ./frontend/dist s3://medium-blog-frontend --delete

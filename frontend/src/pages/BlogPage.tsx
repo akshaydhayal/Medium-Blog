@@ -20,6 +20,7 @@ const BlogPage = () => {
     }
   },[blog])
 
+  
   console.log("likes in BlogPage",likeCount);
   
   let updateBlog:ReturnType<typeof useUpdateBlog>;
